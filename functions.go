@@ -6,6 +6,11 @@ import (
 	"math"
 )
 
+const (
+	// J2000Epoch is January 1, 2000, 12:00 TT
+	J2000Epoch julianTime = 2451545.0
+)
+
 // sin provides the Sine of an angle that is provided in degress
 func sin(a float64) float64 {
 	return math.Sin(a / 180 * math.Pi)
