@@ -150,6 +150,40 @@ func TestLocationMeanSolarNoon(t *testing.T) {
 	}
 }
 
+type TestLocationSolarMeanAnomalyInput struct {
+	location Location
+	day      julianDay
+}
+
+var TestLocationSolarMeanAnomalyData = []struct {
+	input  TestLocationSolarMeanAnomalyInput
+	output float64
+}{
+	{
+		TestLocationSolarMeanAnomalyInput{
+			Location{0, 0, 0}, 23437892.000000,
+		},
+		347.009266,
+	},
+	{
+		TestLocationSolarMeanAnomalyInput{
+			Location{32, -120, 0}, 23437892.000000,
+		},
+		346.680732,
+	},
+}
+
+func TestLocationSolarMeanAnomaly(t *testing.T) {
+	data := TestLocationSolarMeanAnomalyData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		result := input.location.solarMeanAnomaly(input.day)
+		if !almostEqual(result, output) {
+			t.Errorf("expected: `%f`; got: `%f`", output, result)
+		}
+	}
+}
+
 func (j julianTime) almostEqual(a julianTime) bool {
 	return math.Abs(float64(j)-float64(a)) < tolerance
 }

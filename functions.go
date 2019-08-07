@@ -23,6 +23,11 @@ func (a Location) meanSolarNoon(j julianDay) julianTime {
 	return julianTime(j).J2000Epoch() + julianTime(a.Longitude/360)
 }
 
+func (a Location) solarMeanAnomaly(j julianDay) float64 {
+	return math.Mod(357.5291+0.98560028*float64(a.meanSolarNoon(j)),
+		360)
+}
+
 // sin provides the Sine of an angle that is provided in degress
 func sin(a float64) float64 {
 	return math.Sin(a / 180 * math.Pi)
