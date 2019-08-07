@@ -4,6 +4,7 @@ package astro
 
 import (
 	"math"
+	"time"
 )
 
 const (
@@ -43,6 +44,30 @@ func (a Location) solarTransit(j julianDay) julianTime {
 	return J2000Epoch + a.meanSolarNoon(j) +
 		julianTime(0.0053*math.Sin(a.solarMeanAnomaly(j)-
 			0.0069*sin(2*a.eclipticLongitude(j))))
+}
+
+func (g gregorianTime) year() float64 {
+	return float64(time.Time(g).Year())
+}
+
+func (g gregorianTime) month() float64 {
+	return float64(time.Time(g).Month())
+}
+
+func (g gregorianTime) day() float64 {
+	return float64(time.Time(g).Day())
+}
+
+func (g gregorianTime) hour() float64 {
+	return float64(time.Time(g).Hour())
+}
+
+func (g gregorianTime) minute() float64 {
+	return float64(time.Time(g).Minute())
+}
+
+func (g gregorianTime) second() float64 {
+	return float64(time.Time(g).Second())
 }
 
 // sin provides the Sine of an angle that is provided in degress

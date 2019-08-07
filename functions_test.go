@@ -5,6 +5,7 @@ package astro
 import (
 	"math"
 	"testing"
+	"time"
 )
 
 // tolerance is used for comparing float values in tests
@@ -282,6 +283,138 @@ func TestLocationSolarTransit(t *testing.T) {
 		result := input.location.solarTransit(input.day)
 		if !result.almostEqual(output) {
 			t.Errorf("expected: `%f`; got: `%f`", output, result)
+		}
+	}
+}
+
+var TestGregorianTimeYearData = []struct {
+	input  gregorianTime
+	output float64
+}{
+	{
+		input: gregorianTime(time.Date(2007, 12, 14, 21, 7, 51, 0,
+			time.FixedZone("PDT", -25200))),
+		output: 2007,
+	},
+}
+
+func TestGregorianTimeYear(t *testing.T) {
+	data := TestGregorianTimeYearData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		if result := input.year(); result != output {
+			t.Errorf("expected result %f, got result %f", output,
+				result)
+		}
+	}
+}
+
+var TestGregorianTimeMonthData = []struct {
+	input  gregorianTime
+	output float64
+}{
+	{
+		input: gregorianTime(time.Date(2007, 12, 14, 21, 7, 51, 0,
+			time.FixedZone("PDT", -25200))),
+		output: 12,
+	},
+}
+
+func TestGregorianTimeMonth(t *testing.T) {
+	data := TestGregorianTimeMonthData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		if result := input.month(); result != output {
+			t.Errorf("expected result %f, got result %f", output,
+				result)
+		}
+	}
+}
+
+var TestGregorianTimeDayData = []struct {
+	input  gregorianTime
+	output float64
+}{
+	{
+		input: gregorianTime(time.Date(2007, 12, 14, 21, 7, 51, 0,
+			time.FixedZone("PDT", -25200))),
+		output: 14,
+	},
+}
+
+func TestGregorianTimeDay(t *testing.T) {
+	data := TestGregorianTimeDayData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		if result := input.day(); result != output {
+			t.Errorf("expected result %f, got result %f", output,
+				result)
+		}
+	}
+}
+
+var TestGregorianTimeHourData = []struct {
+	input  gregorianTime
+	output float64
+}{
+	{
+		input: gregorianTime(time.Date(2007, 12, 14, 21, 7, 51, 0,
+			time.FixedZone("PDT", -25200))),
+		output: 21,
+	},
+}
+
+func TestGregorianTimeHour(t *testing.T) {
+	data := TestGregorianTimeHourData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		if result := input.hour(); result != output {
+			t.Errorf("expected result %f, got result %f", output,
+				result)
+		}
+	}
+}
+
+var TestGregorianTimeMinuteData = []struct {
+	input  gregorianTime
+	output float64
+}{
+	{
+		input: gregorianTime(time.Date(2007, 12, 14, 21, 7, 51, 0,
+			time.FixedZone("PDT", -25200))),
+		output: 7,
+	},
+}
+
+func TestGregorianTimeMinute(t *testing.T) {
+	data := TestGregorianTimeMinuteData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		if result := input.minute(); result != output {
+			t.Errorf("expected result %f, got result %f", output,
+				result)
+		}
+	}
+}
+
+var TestGregorianTimeSecondData = []struct {
+	input  gregorianTime
+	output float64
+}{
+	{
+		input: gregorianTime(time.Date(2007, 12, 14, 21, 7, 51, 0,
+			time.FixedZone("PDT", -25200))),
+		output: 51,
+	},
+}
+
+func TestGregorianTimeSecond(t *testing.T) {
+	data := TestGregorianTimeSecondData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		if result := input.second(); result != output {
+			t.Errorf("expected result %f, got result %f", output,
+				result)
 		}
 	}
 }
