@@ -96,6 +96,26 @@ func TestACos(t *testing.T) {
 	}
 }
 
+var TestJulianTimeJ2000EpochData = []struct {
+	input  julianTime
+	output julianTime
+}{
+	{input: 24583346.324461, output: 22131801.325261},
+	{input: 23437892.876532, output: 20986347.877332},
+	{input: 29999999.999999, output: 27548455.000799},
+}
+
+func TestJulianTimeJ2000Epoch(t *testing.T) {
+	data := TestJulianTimeJ2000EpochData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		if result := input.J2000Epoch(); !result.almostEqual(output) {
+			t.Errorf("expected result %f, got result %f", output,
+				result)
+		}
+	}
+}
+
 func (j julianTime) almostEqual(a julianTime) bool {
 	return math.Abs(float64(j)-float64(a)) < tolerance
 }
