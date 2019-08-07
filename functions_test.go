@@ -498,3 +498,37 @@ func TestLocationValidate(t *testing.T) {
 		}
 	}
 }
+
+type LocationSolarDeclinationInput struct {
+	location Location
+	day      julianDay
+}
+
+var TestLocationSolarDeclinationData = []struct {
+	input  LocationSolarDeclinationInput
+	output float64
+}{
+	{
+		LocationSolarDeclinationInput{
+			Location{0, 0, 0}, 12345678,
+		},
+		-23.117070,
+	},
+	{
+		LocationSolarDeclinationInput{
+			Location{-134.219, 11.462, 0}, 2454449,
+		},
+		-23.135386,
+	},
+}
+
+func TestLocationSolarDeclination(t *testing.T) {
+	data := TestLocationSolarDeclinationData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		result := input.location.solarDeclination(input.day)
+		if !almostEqual(result, output) {
+			t.Errorf("expected: `%f`; got: `%f`", output, result)
+		}
+	}
+}
