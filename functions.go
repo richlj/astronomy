@@ -39,6 +39,12 @@ func (a Location) eclipticLongitude(j julianDay) float64 {
 		180+102.9732, 360)
 }
 
+func (a Location) solarTransit(j julianDay) julianTime {
+	return J2000Epoch + a.meanSolarNoon(j) +
+		julianTime(0.0053*math.Sin(a.solarMeanAnomaly(j)-
+			0.0069*sin(2*a.eclipticLongitude(j))))
+}
+
 // sin provides the Sine of an angle that is provided in degress
 func sin(a float64) float64 {
 	return math.Sin(a / 180 * math.Pi)

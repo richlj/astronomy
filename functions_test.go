@@ -252,6 +252,40 @@ func TestLocationEclipticLongitude(t *testing.T) {
 	}
 }
 
+type LocationSolarTransitInput struct {
+	location Location
+	day      julianDay
+}
+
+var TestLocationSolarTransitData = []struct {
+	input  LocationSolarTransitInput
+	output julianTime
+}{
+	{
+		LocationSolarTransitInput{
+			Location{0, 0, 0}, 12345678,
+		},
+		12345677.995510,
+	},
+	{
+		LocationSolarTransitInput{
+			Location{34.219, 11.462, 0}, 2454449,
+		},
+		2454449.034946,
+	},
+}
+
+func TestLocationSolarTransit(t *testing.T) {
+	data := TestLocationSolarTransitData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		result := input.location.solarTransit(input.day)
+		if !result.almostEqual(output) {
+			t.Errorf("expected: `%f`; got: `%f`", output, result)
+		}
+	}
+}
+
 func (j julianTime) almostEqual(a julianTime) bool {
 	return math.Abs(float64(j)-float64(a)) < tolerance
 }
