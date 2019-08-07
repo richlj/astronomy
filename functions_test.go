@@ -441,6 +441,29 @@ func TestGregorianTimeSecond(t *testing.T) {
 	}
 }
 
+var TestGregorianTimeDateData = []struct {
+	input  gregorianTime
+	output []int
+}{
+	{
+		input: gregorianTime(time.Date(2007, 12, 14, 21, 7, 51, 0,
+			time.FixedZone("PDT", -25200))),
+		output: []int{2007, 12, 14},
+	},
+}
+
+func TestGregorianTimeDate(t *testing.T) {
+	data := TestGregorianTimeDateData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		y, m, d := input.date()
+		if y != output[0] || m != output[1] || d != output[2] {
+			t.Errorf("expected result %d, got result %d %d %d",
+				output, y, m, d)
+		}
+	}
+}
+
 func (j julianTime) almostEqual(a julianTime) bool {
 	return math.Abs(float64(j)-float64(a)) < tolerance
 }

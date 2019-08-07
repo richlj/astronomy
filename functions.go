@@ -74,6 +74,11 @@ func (g gregorianTime) second() float64 {
 	return float64(time.Time(g).Second())
 }
 
+func (g gregorianTime) date() (int, int, int) {
+	y, m, d := time.Time(g).Date()
+	return y, int(m), d
+}
+
 // sin provides the Sine of an angle that is provided in degress
 func sin(a float64) float64 {
 	return math.Sin(a / 180 * math.Pi)
