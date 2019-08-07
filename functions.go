@@ -46,6 +46,10 @@ func (a Location) solarTransit(j julianDay) julianTime {
 			0.0069*sin(2*a.eclipticLongitude(j))))
 }
 
+func (g gregorianTime) fractionalDay() float64 {
+	return (g.hour()*3600 + g.minute()*60 + g.second()) / 86400
+}
+
 func (g gregorianTime) year() float64 {
 	return float64(time.Time(g).Year())
 }

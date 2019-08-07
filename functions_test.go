@@ -287,6 +287,28 @@ func TestLocationSolarTransit(t *testing.T) {
 	}
 }
 
+var TestGregorianTimeFractionalDayData = []struct {
+	input  gregorianTime
+	output float64
+}{
+	{
+		gregorianTime(time.Date(2007, 12, 14, 21, 7, 51, 0,
+			time.FixedZone("PDT", -25200))),
+		0.880451,
+	},
+}
+
+func TestGregorianTimeFractionalDay(t *testing.T) {
+	data := TestGregorianTimeFractionalDayData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		result := input.fractionalDay()
+		if !almostEqual(result, output) {
+			t.Errorf("expected: `%f`; got: `%f`", output, result)
+		}
+	}
+}
+
 var TestGregorianTimeYearData = []struct {
 	input  gregorianTime
 	output float64
