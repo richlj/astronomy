@@ -95,3 +95,7 @@ func TestACos(t *testing.T) {
 		}
 	}
 }
+
+func (j julianTime) almostEqual(a julianTime) bool {
+	return math.Abs(float64(j)-float64(a)) < tolerance
+}
