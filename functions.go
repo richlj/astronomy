@@ -5,6 +5,8 @@ package astro
 import (
 	"math"
 	"time"
+
+	"github.com/go-validator/validator"
 )
 
 const (
@@ -97,4 +99,8 @@ func asin(a float64) float64 {
 // acos provides the arccosine in degress of the supplied value
 func acos(a float64) float64 {
 	return math.Acos(a) * 180 / math.Pi
+}
+
+func (a Location) validate() error {
+	return validator.Validate(a)
 }

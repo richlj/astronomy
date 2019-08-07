@@ -3,6 +3,7 @@
 package astro
 
 import (
+	"fmt"
 	"math"
 	"testing"
 	"time"
@@ -466,4 +467,34 @@ func TestGregorianTimeDate(t *testing.T) {
 
 func (j julianTime) almostEqual(a julianTime) bool {
 	return math.Abs(float64(j)-float64(a)) < tolerance
+}
+
+var TestLocationValidateData = []struct {
+	input  Location
+	output error
+}{
+	{
+		input:  Location{-56.3762, +181.26, 0},
+		output: fmt.Errorf("Longitude: greater than max"),
+	},
+	{
+		input:  Location{+106.327, -48.5672, 0},
+		output: fmt.Errorf("Latitude: greater than max"),
+	},
+	{
+		input:  Location{+36.3737, +25.373181, 0},
+		output: nil,
+	},
+}
+
+func TestLocationValidate(t *testing.T) {
+	data := TestLocationValidateData
+	for i := 0; i < len(data); i++ {
+		input, out := data[i].input, data[i].output
+		result := input.validate()
+		if result != nil && out != nil && result.Error() != out.Error() ||
+			result != nil && out == nil || result == nil && out != nil {
+			t.Errorf("expected `%s`; got: `%s`", out, result)
+		}
+	}
 }
