@@ -34,6 +34,11 @@ func (a Location) equationOfTheCentre(j julianDay) float64 {
 		0.0003*math.Sin(3*sma)
 }
 
+func (a Location) eclipticLongitude(j julianDay) float64 {
+	return math.Mod(a.solarMeanAnomaly(j)+a.equationOfTheCentre(j)+
+		180+102.9732, 360)
+}
+
 // sin provides the Sine of an angle that is provided in degress
 func sin(a float64) float64 {
 	return math.Sin(a / 180 * math.Pi)

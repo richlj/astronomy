@@ -218,6 +218,40 @@ func TestLocationEquationOfTheCentre(t *testing.T) {
 	}
 }
 
+type TestLocationEclipticLongitudeInput struct {
+	location Location
+	day      julianDay
+}
+
+var TestLocationEclipticLongitudeData = []struct {
+	input  TestLocationEclipticLongitudeInput
+	output float64
+}{
+	{
+		TestLocationEclipticLongitudeInput{
+			Location{0, 0, 0}, 0,
+		},
+		-2.936267,
+	},
+	{
+		TestLocationEclipticLongitudeInput{
+			Location{34.2, 11.2, 0}, 22131859,
+		},
+		41.662002,
+	},
+}
+
+func TestLocationEclipticLongitude(t *testing.T) {
+	data := TestLocationEclipticLongitudeData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		result := input.location.eclipticLongitude(input.day)
+		if !almostEqual(result, output) {
+			t.Errorf("expected: `%f`; got: `%f`", output, result)
+		}
+	}
+}
+
 func (j julianTime) almostEqual(a julianTime) bool {
 	return math.Abs(float64(j)-float64(a)) < tolerance
 }
