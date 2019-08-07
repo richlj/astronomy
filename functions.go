@@ -28,6 +28,12 @@ func (a Location) solarMeanAnomaly(j julianDay) float64 {
 		360)
 }
 
+func (a Location) equationOfTheCentre(j julianDay) float64 {
+	sma := a.solarMeanAnomaly(j)
+	return 1.9148*math.Sin(a.Longitude) + 0.0200*math.Sin(2*sma) +
+		0.0003*math.Sin(3*sma)
+}
+
 // sin provides the Sine of an angle that is provided in degress
 func sin(a float64) float64 {
 	return math.Sin(a / 180 * math.Pi)

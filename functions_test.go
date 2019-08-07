@@ -184,6 +184,40 @@ func TestLocationSolarMeanAnomaly(t *testing.T) {
 	}
 }
 
+type TestLocationEquationOfTheCentreInput struct {
+	location Location
+	day      julianDay
+}
+
+var TestLocationEquationOfTheCentreData = []struct {
+	input  TestLocationEquationOfTheCentreInput
+	output float64
+}{
+	{
+		TestLocationEquationOfTheCentreInput{
+			Location{0, 0, 0}, 23437892.000000,
+		},
+		0.005126,
+	},
+	{
+		TestLocationEquationOfTheCentreInput{
+			Location{-43.1415, 112.23626, 0}, 2454192.000000,
+		},
+		-1.464470,
+	},
+}
+
+func TestLocationEquationOfTheCentre(t *testing.T) {
+	data := TestLocationEquationOfTheCentreData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		result := input.location.equationOfTheCentre(input.day)
+		if !almostEqual(result, output) {
+			t.Errorf("expected: `%f`; got: `%f`", output, result)
+		}
+	}
+}
+
 func (j julianTime) almostEqual(a julianTime) bool {
 	return math.Abs(float64(j)-float64(a)) < tolerance
 }
