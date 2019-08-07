@@ -17,6 +17,12 @@ func (j julianTime) J2000Epoch() julianTime {
 	return j - J2000Epoch + 0.0008
 }
 
+// meanSolarNoon provides the Julian 2000 Epoch julianTime of the mean solar
+// noon for a given Location on a particlular julianDay
+func (a Location) meanSolarNoon(j julianDay) julianTime {
+	return julianTime(j).J2000Epoch() + julianTime(a.Longitude/360)
+}
+
 // sin provides the Sine of an angle that is provided in degress
 func sin(a float64) float64 {
 	return math.Sin(a / 180 * math.Pi)

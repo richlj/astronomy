@@ -116,6 +116,40 @@ func TestJulianTimeJ2000Epoch(t *testing.T) {
 	}
 }
 
+type TestLocationMeanSolarNoonInput struct {
+	location Location
+	day      julianDay
+}
+
+var TestLocationMeanSolarNoonData = []struct {
+	input  TestLocationMeanSolarNoonInput
+	output julianTime
+}{
+	{
+		TestLocationMeanSolarNoonInput{
+			Location{0, 0, 0}, 2453954,
+		},
+		2409.000800,
+	},
+	{
+		TestLocationMeanSolarNoonInput{
+			Location{51.5, -0.12462, 0}, 2464546,
+		},
+		13001.000454,
+	},
+}
+
+func TestLocationMeanSolarNoon(t *testing.T) {
+	data := TestLocationMeanSolarNoonData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		result := input.location.meanSolarNoon(input.day)
+		if !result.almostEqual(output) {
+			t.Errorf("expected `%f`; got `%f`", output, result)
+		}
+	}
+}
+
 func (j julianTime) almostEqual(a julianTime) bool {
 	return math.Abs(float64(j)-float64(a)) < tolerance
 }
