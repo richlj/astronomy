@@ -9,3 +9,6 @@ import (
 type gregorianTime time.Time
 
 type julianTime float64
+
+// Altitude is the height in meters of an object above sea level
+type Altitude float64
