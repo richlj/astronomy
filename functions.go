@@ -16,6 +16,9 @@ const (
 
 var (
 	earthAngleOfTilt = 23.439281 // Appoximate value
+
+	// unixEpoch is Thursday, 1 January 1970 UTC
+	unixEpoch = time.Unix(0, 0).UTC()
 )
 
 func (j julianTime) julianDay() julianDay {
