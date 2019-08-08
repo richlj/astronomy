@@ -28,6 +28,25 @@ func (j julianTime) J2000Epoch() julianTime {
 	return j - J2000Epoch + 0.0008
 }
 
+// julian converts a gregorianTime into a julianTime (for dates with years in
+// the range of 1801 to 2099, inclusive)
+func (g gregorianTime) julian() julianTime {
+	return julianTime(367*g.year() - float64(int(7*(float64(g.year())+
+		float64(int((g.month()+9)/12)))/4)) +
+		float64((275*int(g.month()))/9) + 1721013.5 + g.day() +
+		g.fractionalDay() + g.c19Correction())
+}
+
+// c19Correction supplies a value for correcting the conversion of
+// gregorianTimes to julianTimes depending on whether they are after
+// 28th February 1900
+func (g gregorianTime) c19Correction() float64 {
+	if 100*g.year()+g.month()-190002.5 < 0 {
+		return 0
+	}
+	return 1
+}
+
 // meanSolarNoon provides the Julian 2000 Epoch julianTime of the mean solar
 // noon for a given Location on a particlular julianDay
 func (a Location) meanSolarNoon(j julianDay) julianTime {

@@ -552,3 +552,56 @@ func TestJulianTimeJulianDay(t *testing.T) {
 		}
 	}
 }
+
+var TestGregorianTimeJulianData = []struct {
+	input  gregorianTime
+	output julianTime
+}{
+	{
+		gregorianTime(time.Date(2017, 12, 14, 21, 7, 51, 0,
+			time.FixedZone("PDT", -25200))),
+		2458103.380451,
+	},
+}
+
+func TestGregorianTimeJulian(t *testing.T) {
+	data := TestGregorianTimeJulianData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		if result := input.julian(); !result.almostEqual(output) {
+			t.Errorf("expected: `%f`; got: `%f`", output, result)
+		}
+	}
+}
+
+var TestGregorianTimeC19CorrectionData = []struct {
+	input  gregorianTime
+	output float64
+}{
+	{
+		gregorianTime(time.Date(2007, 12, 14, 21, 7, 51, 0,
+			time.FixedZone("PDT", -25200))),
+		1.000000,
+	},
+	{
+		gregorianTime(time.Date(1900, 2, 28, 21, 7, 51, 0,
+			time.FixedZone("UTC", 0))),
+		0.000000,
+	},
+	{
+		gregorianTime(time.Date(1900, 3, 1, 21, 7, 51, 0,
+			time.FixedZone("UTC", 0))),
+		1.000000,
+	},
+}
+
+func TestGregorianTimeC19Correction(t *testing.T) {
+	data := TestGregorianTimeC19CorrectionData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		result := input.c19Correction()
+		if !almostEqual(result, output) {
+			t.Errorf("expected: `%f`; got: `%f`", output, result)
+		}
+	}
+}
