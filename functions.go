@@ -18,6 +18,10 @@ var (
 	earthAngleOfTilt = 23.439281 // Appoximate value
 )
 
+func (j julianTime) julianDay() julianDay {
+	return julianDay(math.Round(float64(j)))
+}
+
 // J2000Epoch returns the julianTime of a given julianTime within the standard
 // epoch "J2000" in the Julian calendar
 func (j julianTime) J2000Epoch() julianTime {

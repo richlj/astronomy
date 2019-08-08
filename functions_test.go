@@ -532,3 +532,23 @@ func TestLocationSolarDeclination(t *testing.T) {
 		}
 	}
 }
+
+var TestJulianTimeJulianDayData = []struct {
+	input  julianTime
+	output julianDay
+}{
+	{input: 24583346.324461, output: 24583346.000000},
+	{input: 23437892.876532, output: 23437893.000000},
+	{input: 29999999.999999, output: 30000000.000000},
+}
+
+func TestJulianTimeJulianDay(t *testing.T) {
+	data := TestJulianTimeJulianDayData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		if result := input.julianDay(); result != output {
+			t.Errorf("expected: `%f`; got: `%f`", output,
+				result)
+		}
+	}
+}
