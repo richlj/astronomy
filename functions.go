@@ -68,6 +68,10 @@ func (g gregorianTime) julianDate() julianTime {
 		(367*(m-2-(m-14)/12*12)/12 - (3*(y+4900+(m-14)/12)/100)/4)))
 }
 
+func (g gregorianTime) julianDay() julianDay {
+	return g.julian().julianDay()
+}
+
 // meanSolarNoon provides the Julian 2000 Epoch julianTime of the mean solar
 // noon for a given Location on a particlular julianDay
 func (a Location) meanSolarNoon(j julianDay) julianTime {

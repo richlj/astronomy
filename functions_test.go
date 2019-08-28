@@ -765,3 +765,30 @@ func TestJulianTimeIsZero(t *testing.T) {
 		}
 	}
 }
+
+var TestGregorianTimeJulianDayData = []struct {
+	input  gregorianTime
+	output julianDay
+}{
+	{
+		gregorianTime(time.Date(1980, 1, 1, 1, 1, 1, 1,
+			time.FixedZone("UTC", 0))),
+		julianDay(2444240.000000),
+	},
+	{
+		gregorianTime(time.Date(2007, 12, 14, 21, 8, 1, 0,
+			time.FixedZone("PDT", -25200))),
+		julianDay(2454449.000000),
+	},
+}
+
+func TestGregorianTimeJulianDay(t *testing.T) {
+	data := TestGregorianTimeJulianDayData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		if result := input.julian().julianDay(); result != output {
+			t.Errorf("expected result %f, got result %f", output,
+				result)
+		}
+	}
+}
