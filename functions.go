@@ -101,6 +101,12 @@ func (a Altitude) correction() float64 {
 	return -0.1625
 }
 
+func (a Location) hourAngle(j julianDay) julianTime {
+	return julianTime(acos((sin(-0.83+a.Altitude.correction()) -
+		sin(a.Latitude)*sin(a.solarDeclination(j))) /
+		cos(a.Latitude) / cos(a.solarDeclination(j))))
+}
+
 func (g gregorianTime) fractionalDay() float64 {
 	return (g.hour()*3600 + g.minute()*60 + g.second()) / 86400
 }

@@ -670,3 +670,37 @@ func TestAltitudeCorrection(t *testing.T) {
 		}
 	}
 }
+
+type TestLocationHourAngleInput struct {
+	location Location
+	day      julianDay
+}
+
+var TestLocationHourAngleData = []struct {
+	input  TestLocationHourAngleInput
+	output julianTime
+}{
+	{
+		TestLocationHourAngleInput{
+			Location{0, 0, 0}, 12345678,
+		},
+		91.079161,
+	},
+	{
+		TestLocationHourAngleInput{
+			Location{-134.219, 11.462, 0}, 2454449,
+		},
+		62.219506,
+	},
+}
+
+func TestLocationHourAngle(t *testing.T) {
+	data := TestLocationHourAngleData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		result := input.location.hourAngle(input.day)
+		if !result.almostEqual(output) {
+			t.Errorf("expected result %f, got result %f", output, result)
+		}
+	}
+}
