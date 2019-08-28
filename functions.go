@@ -10,6 +10,9 @@ import (
 )
 
 const (
+	jsonTimeFormat   = "2006-01-02T15:04:05-07:00"
+	jsonTimeNilValue = "n/a"
+
 	// J2000Epoch is January 1, 2000, 12:00 TT
 	J2000Epoch julianTime = 2451545.0
 )
