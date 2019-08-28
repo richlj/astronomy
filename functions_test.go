@@ -560,7 +560,7 @@ var TestGregorianTimeJulianData = []struct {
 	{
 		gregorianTime(time.Date(2017, 12, 14, 21, 7, 51, 0,
 			time.FixedZone("PDT", -25200))),
-		2458103.380451,
+		2458102.380451,
 	},
 }
 
@@ -581,17 +581,17 @@ var TestGregorianTimeC19CorrectionData = []struct {
 	{
 		gregorianTime(time.Date(2007, 12, 14, 21, 7, 51, 0,
 			time.FixedZone("PDT", -25200))),
-		1.000000,
+		0.000000,
 	},
 	{
 		gregorianTime(time.Date(1900, 2, 28, 21, 7, 51, 0,
 			time.FixedZone("UTC", 0))),
-		0.000000,
+		1.000000,
 	},
 	{
 		gregorianTime(time.Date(1900, 3, 1, 21, 7, 51, 0,
 			time.FixedZone("UTC", 0))),
-		1.000000,
+		0.000000,
 	},
 }
 

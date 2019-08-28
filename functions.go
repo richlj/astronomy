@@ -45,9 +45,9 @@ func (g gregorianTime) julian() julianTime {
 // 28th February 1900
 func (g gregorianTime) c19Correction() float64 {
 	if 100*g.year()+g.month()-190002.5 < 0 {
-		return 0
+		return 1
 	}
-	return 1
+	return 0
 }
 
 // meanSolarNoon provides the Julian 2000 Epoch julianTime of the mean solar
