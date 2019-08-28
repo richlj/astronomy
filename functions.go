@@ -90,6 +90,17 @@ func (a Location) solarDeclination(j julianDay) float64 {
 	return asin(sin(a.eclipticLongitude(j)) * sin(earthAngleOfTilt))
 }
 
+// Altitude.correction attempts to provide a correcting value for solar
+// transit calculations with regards to altitude. It's probably going to be
+// quite wide of the mark for values above sea level, and it doesn't even
+// attempt to provide accurate value for locations below sea level.
+func (a Altitude) correction() float64 {
+	if a > 0 {
+		return -2.076 * (math.Sqrt(float64(a) / 60))
+	}
+	return -0.1625
+}
+
 func (g gregorianTime) fractionalDay() float64 {
 	return (g.hour()*3600 + g.minute()*60 + g.second()) / 86400
 }

@@ -647,3 +647,26 @@ func TestJulianTimeGregorian(t *testing.T) {
 		}
 	}
 }
+
+var TestAltitudeCorrectionData = []struct {
+	input  Altitude
+	output float64
+}{
+	{input: 0, output: -0.162500},
+	{input: 10, output: -0.847523},
+	{input: 50, output: -1.895120},
+	{input: 100, output: -2.680104},
+	{input: 314.159265359, output: -4.750361},
+	{input: 1000, output: -8.475235},
+}
+
+func TestAltitudeCorrection(t *testing.T) {
+	data := TestAltitudeCorrectionData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		if result := input.correction(); !almostEqual(result, output) {
+			t.Errorf("expected result %f, got result %f", output,
+				result)
+		}
+	}
+}
