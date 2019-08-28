@@ -837,3 +837,68 @@ func TestGregorianTimeString(t *testing.T) {
 		}
 	}
 }
+
+type sunTimeDataInputs struct {
+	location Location
+	day      julianDay
+}
+
+var TestLocationSunriseTimeData = []struct {
+	input  sunTimeDataInputs
+	output julianTime
+}{
+	{
+		sunTimeDataInputs{Location{45, 10, 0}, 2500000.5},
+		julianTime(2500000.251258),
+	},
+	{
+		sunTimeDataInputs{Location{-60, 35, 0}, 2458397.5},
+		julianTime(2458397.3214121),
+	},
+	{
+		sunTimeDataInputs{Location{45, -90, 0}, 2482500.5},
+		julianTime(2482500.006067),
+	},
+}
+
+func TestLocationSunriseTime(t *testing.T) {
+	data := TestLocationSunriseTimeData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		result := input.location.sunriseTime(input.day)
+		if output.gregorian() != result.gregorian() {
+			t.Errorf("expected: `%s`; got: `%s`", result.gregorian(),
+				output.gregorian())
+		}
+	}
+}
+
+var TestLocationSunsetTimeData = []struct {
+	input  sunTimeDataInputs
+	output julianTime
+}{
+	{
+		sunTimeDataInputs{Location{45, 10, 0}, 2500000.5},
+		julianTime(2500000.809059),
+	},
+	{
+		sunTimeDataInputs{Location{-60, 35, 0}, 2458397.5},
+		julianTime(2458397.884761),
+	},
+	{
+		sunTimeDataInputs{Location{45, -90, 0}, 2482500.5},
+		julianTime(2482500.495580),
+	},
+}
+
+func TestLocationSunsetTime(t *testing.T) {
+	data := TestLocationSunsetTimeData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		result := input.location.sunsetTime(input.day)
+		if output.gregorian() != result.gregorian() {
+			t.Errorf("expected: `%s`; got: `%s`", result.gregorian(),
+				output.gregorian())
+		}
+	}
+}

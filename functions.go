@@ -114,6 +114,20 @@ func (a Location) solarDeclination(j julianDay) float64 {
 	return asin(sin(a.eclipticLongitude(j)) * sin(earthAngleOfTilt))
 }
 
+func (a Location) sunriseTime(j julianDay) julianTime {
+	if t := a.solarTransit(j) - a.hourAngle(j)/360; !t.IsZero() {
+		return t
+	}
+	return 0
+}
+
+func (a Location) sunsetTime(j julianDay) julianTime {
+	if t := a.solarTransit(j) + a.hourAngle(j)/360; !t.IsZero() {
+		return t
+	}
+	return 0
+}
+
 // Altitude.correction attempts to provide a correcting value for solar
 // transit calculations with regards to altitude. It's probably going to be
 // quite wide of the mark for values above sea level, and it doesn't even
