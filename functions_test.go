@@ -1,5 +1,4 @@
-// Package astro contains functions for calculating astronomical times and
-// positions
+// Package astro is used for carrying out astronomical calculations
 package astro
 
 import (
