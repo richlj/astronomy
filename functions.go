@@ -31,6 +31,14 @@ func (j julianTime) J2000Epoch() julianTime {
 	return j - J2000Epoch + 0.0008
 }
 
+// gregorian provides a gregorianTime corresponding to the supplied julianTime
+func (j julianTime) gregorian() gregorianTime {
+	if t := j - gregorianTime(unixEpoch).julian(); j != 0 {
+		return gregorianTime(time.Unix(int64(t*86400), 0))
+	}
+	return gregorianTime{}
+}
+
 // julian converts a gregorianTime into a julianTime (for dates with years in
 // the range of 1801 to 2099, inclusive)
 func (g gregorianTime) julian() julianTime {

@@ -605,3 +605,45 @@ func TestGregorianTimeC19Correction(t *testing.T) {
 		}
 	}
 }
+
+var TestJulianTimeGregorianData = []struct {
+	input  julianTime
+	output gregorianTime
+}{
+	{
+		julianTime(2460528.38793),
+		gregorianTime(time.Date(2024, 8, 5, 21, 18, 37, 0,
+			time.FixedZone("UTC", 0))),
+	},
+	{
+		julianTime(2460527.596272),
+		gregorianTime(time.Date(2024, 8, 5, 2, 18, 37, 0,
+			time.FixedZone("UTC", 0))),
+	},
+	{
+		julianTime(2460619.97127),
+		gregorianTime(time.Date(2024, 11, 5, 11, 18, 37, 0,
+			time.FixedZone("UTC", 0))),
+	},
+	{
+		julianTime(2451545.13125),
+		gregorianTime(time.Date(2000, 1, 1, 15, 9, 0, 0,
+			time.FixedZone("UTC", 0))),
+	},
+	{
+		julianTime(2445853.03403),
+		gregorianTime(time.Date(1984, 6, 1, 12, 49, 0, 0,
+			time.FixedZone("UTC", 0))),
+	},
+}
+
+func TestJulianTimeGregorian(t *testing.T) {
+	data := TestJulianTimeGregorianData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, time.Time(data[i].output)
+		result := time.Time(input.gregorian())
+		if output.Sub(result) != 0 {
+			t.Errorf("expected: `%s`; got: `%s`", result, output)
+		}
+	}
+}
