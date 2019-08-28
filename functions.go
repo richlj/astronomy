@@ -58,6 +58,12 @@ func (g gregorianTime) c19Correction() float64 {
 	return 0
 }
 
+func (g gregorianTime) julianDate() julianTime {
+	y, m, d := g.date()
+	return julianTime(d - 32075 + (1461*(y+4800+(m-14)/12)/4 +
+		(367*(m-2-(m-14)/12*12)/12 - (3*(y+4900+(m-14)/12)/100)/4)))
+}
+
 // meanSolarNoon provides the Julian 2000 Epoch julianTime of the mean solar
 // noon for a given Location on a particlular julianDay
 func (a Location) meanSolarNoon(j julianDay) julianTime {

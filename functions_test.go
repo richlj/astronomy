@@ -704,3 +704,30 @@ func TestLocationHourAngle(t *testing.T) {
 		}
 	}
 }
+
+var TestGregorianTimeJulianDateData = []struct {
+	input  gregorianTime
+	output julianTime
+}{
+	{
+		gregorianTime(time.Date(2007, 12, 14, 21, 7, 51, 0,
+			time.FixedZone("PDT", -25200))),
+		2454449.000000,
+	},
+	{
+		gregorianTime(time.Date(2039, 1, 12, 1, 7, 51, 0,
+			time.FixedZone("GMT", 0))),
+		2465800.000000,
+	},
+}
+
+func TestGregorianTimeJulianDate(t *testing.T) {
+	data := TestGregorianTimeJulianDateData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		if result := input.julianDate(); !result.almostEqual(output) {
+			t.Errorf("expected result %f, got result %f", output,
+				result)
+		}
+	}
+}
