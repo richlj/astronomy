@@ -731,3 +731,37 @@ func TestGregorianTimeJulianDate(t *testing.T) {
 		}
 	}
 }
+
+var TestJulianTimeIsZeroData = []struct {
+	input  julianTime
+	output bool
+}{
+	{
+		julianTime(math.NaN()),
+		true,
+	},
+	{
+		julianTime(J2000Epoch),
+		false,
+	},
+	{
+		julianTime(300000),
+		false,
+	},
+	{
+		gregorianTime(time.Now()).julian(),
+		false,
+	},
+}
+
+func TestJulianTimeIsZero(t *testing.T) {
+	data := TestJulianTimeIsZeroData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		result := input.IsZero()
+		if output != result {
+			t.Errorf("result %t does not match expected output %t",
+				result, output)
+		}
+	}
+}

@@ -39,6 +39,10 @@ func (j julianTime) gregorian() gregorianTime {
 	return gregorianTime{}
 }
 
+func (j julianTime) IsZero() bool {
+	return math.IsNaN(float64(j))
+}
+
 // julian converts a gregorianTime into a julianTime (for dates with years in
 // the range of 1801 to 2099, inclusive)
 func (g gregorianTime) julian() julianTime {
