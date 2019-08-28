@@ -75,6 +75,13 @@ func (g gregorianTime) julianDay() julianDay {
 	return g.julian().julianDay()
 }
 
+func (g gregorianTime) String() string {
+	if !time.Time(g).IsZero() {
+		return time.Time(g).Format(jsonTimeFormat)
+	}
+	return jsonTimeNilValue
+}
+
 // meanSolarNoon provides the Julian 2000 Epoch julianTime of the mean solar
 // noon for a given Location on a particlular julianDay
 func (a Location) meanSolarNoon(j julianDay) julianTime {

@@ -792,3 +792,48 @@ func TestGregorianTimeJulianDay(t *testing.T) {
 		}
 	}
 }
+
+var TestGregorianTimeStringData = []struct {
+	input  gregorianTime
+	output string
+}{
+	{
+		gregorianTime(time.Date(1980, 1, 1, 1, 1, 1, 1,
+			time.FixedZone("UTC", 0))),
+		"1980-01-01T01:01:01+00:00",
+	},
+	{
+		gregorianTime(time.Date(2007, 12, 14, 21, 8, 1, 0,
+			time.FixedZone("PDT", -25200))),
+		"2007-12-14T21:08:01-07:00",
+	},
+	{
+		gregorianTime(time.Date(2033, 4, 5, 15, 1, 1, 1,
+			time.FixedZone("UTC", +10800))),
+		"2033-04-05T15:01:01+03:00",
+	},
+	{
+		gregorianTime(time.Date(1991, 11, 25, 2, 59, 57, 0,
+			time.FixedZone("CST", 28800))),
+		"1991-11-25T02:59:57+08:00",
+	},
+	{
+		gregorianTime(time.Date(2001, 2, 3, 4, 5, 6, 7,
+			time.FixedZone("CST", 28800))),
+		"2001-02-03T04:05:06+08:00",
+	},
+	{
+		gregorianTime(time.Time{}),
+		"n/a",
+	},
+}
+
+func TestGregorianTimeString(t *testing.T) {
+	data := TestGregorianTimeStringData
+	for i := 0; i < len(data); i++ {
+		input, output := data[i].input, data[i].output
+		if result := input.String(); output != result {
+			t.Errorf("expected: `%s`; got: `%s`", result, output)
+		}
+	}
+}
